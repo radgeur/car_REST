@@ -30,3 +30,11 @@ Lionel Seinturier.
 
 
 [1] http://aredko.blogspot.fr/2013/01/going-rest-embedding-jetty-with-spring.html
+
+Commentaires :
+	-Manque de documentations sur le TP. 
+	-Objectifs trop peu clairs et explicites. 
+	-Aucun TD de préparation. 
+	-Poly de cours trop rapide sur le sujet.
+	-Proposer un serveur fonctionnel pour les personnes n'ayant pas fini le premier TP serait appréciable
+	-Malgré cela un TP interessant une fois que l'on a compris ce qu'on attendait de nous.
