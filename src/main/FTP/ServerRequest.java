@@ -37,7 +37,7 @@ public class ServerRequest extends Thread {
 		input = socket.getInputStream();
 		bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		current_dir = new String("./FTP/toto");
+		current_dir = new String("./FTP/");
 		nb_commandes=0;
 		user=true;
 		mode = 0; //1 active    2 passive
@@ -107,8 +107,8 @@ public class ServerRequest extends Thread {
 		
 	}
 	
-	private void processLIST(String code[]) throws IOException{
-		String[] dir = new java.io.File(this.current_dir).list( );
+	private void processLIST(String path) throws IOException{
+		String[] dir = new java.io.File(this.current_dir + path).list( );
 		String list = new String();
 		if(dir[0]!=null){
 			for(int i=0;i<dir.length;i++){
@@ -117,7 +117,7 @@ public class ServerRequest extends Thread {
 			this.bw.write("150 \r\n");
 			this.bw.flush();
 			
-			this.bw_data.write("test "+list+"\n");
+			this.bw_data.write(list+"\n");
 			this.bw_data.flush();
 
 			this.bw.write("226 \r\n");
@@ -336,7 +336,7 @@ public class ServerRequest extends Thread {
 			}
 
 			case "LIST": {
-				processLIST(code);
+				processLIST(code[1]);
 				break;
 			}
 		

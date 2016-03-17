@@ -50,11 +50,13 @@ public class Passerelle {
 	}
 	
 	@GET
-	@Path("{path}")
+	@Path("")
 	@Produces("text/html")
 	public String List(@PathParam("path") String path) throws IOException{
 		FTPClient client = init();
-		if(login.equals(path)){
+		System.out.println(path);
+		String[] pathSplit = path.split("/");
+		if(login.equals(pathSplit[0])){
 			FTPFile[] files = client.listFiles(path);
 			String clientFiles = "";
 			for(FTPFile file : files) {
@@ -65,5 +67,16 @@ public class Passerelle {
 		}
 		else
 			return "<h1> ERROR </h1>";
+	}
+	
+	@GET
+	@Path("{path}")
+	@Produces("application/octet-stream")
+	public void downLoad(@PathParam("path") String path){
+		FTPClient client = init();
+		String[] pathSplit = path.split("/");
+		if(login.equals(pathSplit[0])){
+			
+		}
 	}
 }

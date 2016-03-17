@@ -37,4 +37,6 @@ Commentaires :
 	-Aucun TD de préparation. 
 	-Poly de cours trop rapide sur le sujet.
 	-Proposer un serveur fonctionnel pour les personnes n'ayant pas fini le premier TP serait appréciable
+	-parser incompatible pour récupérer la liste des fichiers
+	-il faut ajouter des /r pour les messages d'erreurs du serveur et cela n'est expliqué nulle part.
 	-Malgré cela un TP interessant une fois que l'on a compris ce qu'on attendait de nous.
