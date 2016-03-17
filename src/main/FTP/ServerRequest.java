@@ -108,16 +108,19 @@ public class ServerRequest extends Thread {
 	}
 	
 	private void processLIST(String path) throws IOException{
-		String[] dir = new java.io.File(this.current_dir + path).list( );
+		File[] dir = new File(this.current_dir + path).listFiles();
 		String list = new String();
 		if(dir[0]!=null){
-			for(int i=0;i<dir.length;i++){
-				list = dir[i]+" \r\n"+ list;
+			for(File file : dir){
+				if(file.isDirectory())
+					list = "d/" + file.getName() +" \r\n" + list;
+				else
+					list = "f/" + file.getName() +" \r\n" + list;
 			}
 			this.bw.write("150 \r\n");
 			this.bw.flush();
 			
-			this.bw_data.write(list+"\n");
+			this.bw_data.write(list);
 			this.bw_data.flush();
 
 			this.bw.write("226 \r\n");

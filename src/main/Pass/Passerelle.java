@@ -1,6 +1,8 @@
 package main.Pass;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
@@ -46,22 +49,30 @@ public class Passerelle {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 		}
-		return "<h1>" + tmp + "</h1>";
+		return "<h1> Félicitation vous ête connecté</h1><br />"
+				+ "<a href=http://localhost:8080/rest/tp2/home/dir/toto /> Cliquez ici pour accéder à votre répertoire </a>";
 	}
 	
 	@GET
-	@Path("")
+	@Path("dir/{path: .*}")
 	@Produces("text/html")
 	public String List(@PathParam("path") String path) throws IOException{
 		FTPClient client = init();
-		System.out.println(path);
 		String[] pathSplit = path.split("/");
 		if(login.equals(pathSplit[0])){
 			FTPFile[] files = client.listFiles(path);
 			String clientFiles = "";
 			for(FTPFile file : files) {
-				clientFiles += "<a href=http://localhost:8080/rest/tp2/home/" + path + "/" + file.toString() + "/>" + file.toString()
-							+ "</a><br />";
+				String fileString = file.toString();
+				String[] fileStringSplit = fileString.split("/");
+				if(fileStringSplit[0].equals("f")){
+					clientFiles += "<a href=http://localhost:8080/rest/tp2/home/file/" + path + "/" + fileStringSplit[1] + "/>" + fileStringSplit[1]
+								+ "</a><br />";
+				}
+				else{
+					clientFiles += "<a href=http://localhost:8080/rest/tp2/home/dir/" + path + "/" + fileStringSplit[1] + "/>" + fileStringSplit[1]
+					+ "</a><br />";
+				}
 			}
 			return clientFiles;
 		}
@@ -70,13 +81,16 @@ public class Passerelle {
 	}
 	
 	@GET
-	@Path("{path}")
+	@Path("file/{file: .*}")
 	@Produces("application/octet-stream")
-	public void downLoad(@PathParam("path") String path){
+	public Response downLoad(@PathParam("file") String file) throws IOException{
 		FTPClient client = init();
-		String[] pathSplit = path.split("/");
+		String[] pathSplit = file.split("/");
 		if(login.equals(pathSplit[0])){
-			
+			InputStream in = client.retrieveFileStream(file);
+			Response response = Response.ok(in).build();
+			return response;
 		}
+		return null;
 	}
 }
